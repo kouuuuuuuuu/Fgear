@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fgear.webapp.dao.ComponentMapper">
+
+    <resultMap id = "componentMap" type = "com.fgear.webapp.domain.Component">
+        <result property = "componentID" column = "componentID"/>
+        <result property = "componentName" column = "componentName"/>
+        <result property = "sellPrice" column = "sellPrice"/>
+        <result property = "rentPrice" column = "rentPrice"/>
+        <result property = "quantity" column = "quantity"/>
+        <result property = "image" column = "image"/>
+        <result property = "description" column = "description"/>
+        <result property = "brandID" column = "brandID"/>
+        <result property = "categoryID" column = "categoryID"/>
+        <result property = "status" column = "status"/>
+    </resultMap>
+
+    <select id="getAllComponent" resultMap="componentMap">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component;
+    </select>
+
+    <select id="getComponentByName" resultMap="componentMap">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component
+        WHERE componentName like CONCAT('%', #{componentName}, '%');
+    </select>
+
+    <select id="getComponentByBrand" resultMap="componentMap">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component
+        WHERE brandID = #{brandID};
+    </select>
+
+    <select id="getComponentDetail" resultType="com.fgear.webapp.domain.Component">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component
+        WHERE componentID = #{componentID};
+    </select>
+
+    <select id="getComponentListByCategoryTypeID" resultMap="componentMap">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component, Category, CategoryType
+        WHERE Component.categoryID = Category.categoryID
+        and CategoryType.categoryTypeID = Category.categoryTypeID
+        and Category.categoryTypeID = #{categoryTypeID}
+    </select>
+
+    <select id="getComponentByCategoryID" resultMap="componentMap">
+        SELECT
+        componentID,
+        componentName,
+        sellPrice,
+        rentPrice,
+        quantity,
+        image,
+        description,
+        brandID,
+        categoryID,
+        status
+        FROM Component
+        WHERE categoryID = #{categoryID};
+    </select>
+
+</mapper>
