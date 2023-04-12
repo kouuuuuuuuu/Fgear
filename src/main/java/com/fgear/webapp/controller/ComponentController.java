@@ -55,7 +55,7 @@ public class ComponentController {
         componentResponse.setComponents(components);
         return ResponseEntity.ok().body(componentResponse);
     }
-    @GetMapping("componentListByCategoryID")
+    @GetMapping("/componentListByCategoryID")
     public ResponseEntity<ComponentResponse> getComponentListByCategoryID(@RequestParam String categoryID){
         List<Component> components = componentService.getComponentByCategoryID(categoryID);
         ComponentResponse componentResponse = new ComponentResponse();
@@ -65,5 +65,9 @@ public class ComponentController {
         }
         componentResponse.setComponents(components);
         return ResponseEntity.ok().body(componentResponse);
+    }
+    @GetMapping("/componentDetail")
+    public ResponseEntity<Component> getDetailComponent(@RequestParam int componentID){
+        return ResponseEntity.ok().body(componentService.getComponentDetail(componentID));
     }
 }
