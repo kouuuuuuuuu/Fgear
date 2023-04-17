@@ -1,7 +1,7 @@
 package com.fgear.webapp.controller;
 
 import com.fgear.webapp.domain.Component;
-import com.fgear.webapp.responeType.ComponentResponse;
+import com.fgear.webapp.responseType.ComponentResponse;
 import com.fgear.webapp.service.interf.ComponentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -3,10 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fgear.webapp.dao.RoleMapper">
-    <select id="findRoleName" resultType="com.fgear.webapp.domain.User">
+
+    <select id="findRoleName" resultType="com.fgear.webapp.domain.Role">
         SELECT
         roleID,
         roleName
         FROM Role where roleID = #{roleID};
     </select>
+
 </mapper>

@@ -36,6 +36,7 @@ public class SecuConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(
+                "/user/**",
                 "/component/**",
                 "**/swagger-resources/**",
                 "/swagger-ui.html",

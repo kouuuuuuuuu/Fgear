@@ -3,6 +3,7 @@ package com.fgear.webapp.service.impl;
 import com.fgear.webapp.dao.UserMapper;
 import com.fgear.webapp.domain.Role;
 import com.fgear.webapp.domain.User;
+import com.fgear.webapp.responseType.UserResponse;
 import com.fgear.webapp.service.interf.RoleService;
 import com.fgear.webapp.service.interf.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,13 @@ public class UserServerImp implements UserDetailsService, UserService {
 
     @Override
     public User findUserByID(String userID) {
-        return null;
+        log.debug("find user by ID");
+        return userMapper.findUserById(userID);
+    }
+
+    @Override
+    public List<UserResponse> getListUserWithRoleUser() {
+        log.debug("get list user");
+        return userMapper.getListUserWithRoleUser();
     }
 }

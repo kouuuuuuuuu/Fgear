@@ -1,6 +1,5 @@
-package com.fgear.webapp.responeType;
+package com.fgear.webapp.responseType;
 
-import com.fgear.webapp.domain.Component;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComponentResponse {
-    private List<Component> components;
+public class UserResponseByRoleUser {
+    private List<UserResponse> users;
     private String errorMessage;
-
 }
