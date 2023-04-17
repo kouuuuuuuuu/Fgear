@@ -12,10 +12,12 @@ import com.fgear.webapp.responseType.UserResponseByRoleUser;
 import com.fgear.webapp.service.interf.RoleService;
 import com.fgear.webapp.service.interf.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
@@ -77,12 +79,12 @@ public class UserController {
             tokens.put("refresh_token", refresh_token);
             response.setContentType("application/json");
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-        }catch (Exception e){
-            response.setHeader("error", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }catch (AuthenticationException e) {
+            response.setHeader("error", "Invalid credentials");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             Map<String, String> error = new HashMap<>();
-            error.put("error_message", e.getMessage());
-            response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+            error.put("error_message", "Your username or password is incorrect");
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), error);
         }
     }

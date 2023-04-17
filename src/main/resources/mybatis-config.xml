@@ -11,5 +11,7 @@
     <mapper resource="mapper/UserMapper.xml"></mapper>
     <mapper resource="mapper/RoleMapper.xml"></mapper>
     <mapper resource="mapper/ComponentMapper.xml"></mapper>
+    <mapper resource="mapper/CategoryTypeMapper.xml"></mapper>
+    <mapper resource="mapper/CategoryMapper.xml"></mapper>
 </mappers>
 </configuration>

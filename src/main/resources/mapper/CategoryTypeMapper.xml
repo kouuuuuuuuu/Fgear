@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fgear.webapp.dao.CategoryTypeMapper">
+    <resultMap id = "categoryTypeMap" type = "com.fgear.webapp.domain.CategoryType">
+        <result property = "categoryTypeID" column = "categoryTypeID"/>
+        <result property = "categoryTypeName" column = "categoryTypeName"/>
+    </resultMap>
+    <select id="getAllCategoryType" resultMap="categoryTypeMap">
+        SELECT  categoryTypeID,
+        categoryTypeName
+        FROM CategoryType;
+    </select>
+</mapper>
