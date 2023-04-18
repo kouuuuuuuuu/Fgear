@@ -7,8 +7,7 @@
     <resultMap id = "componentMap" type = "com.fgear.webapp.domain.Component">
         <result property = "componentID" column = "componentID"/>
         <result property = "componentName" column = "componentName"/>
-        <result property = "sellPrice" column = "sellPrice"/>
-        <result property = "rentPrice" column = "rentPrice"/>
+        <result property = "price" column = "price"/>
         <result property = "quantity" column = "quantity"/>
         <result property = "image" column = "image"/>
         <result property = "description" column = "description"/>
@@ -17,101 +16,107 @@
         <result property = "status" column = "status"/>
     </resultMap>
 
-    <select id="getAllComponent" resultMap="componentMap">
+    <resultMap id = "componentMapForUser" type = "com.fgear.webapp.responseType.ComponentResponseForUser">
+        <result property = "componentID" column = "componentID"/>
+        <result property = "componentName" column = "componentName"/>
+        <result property = "price" column = "price"/>
+        <result property = "quantity" column = "quantity"/>
+        <result property = "image" column = "image"/>
+        <result property = "description" column = "description"/>
+        <result property = "brandName" column = "brandName"/>
+        <result property = "categoryID" column = "categoryID"/>
+        <result property = "status" column = "status"/>
+    </resultMap>
+    <select id="getAllComponent" resultMap="componentMapForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component;
+        FROM Component,Brand WHERE Component.brandID = Brand.brandID;
     </select>
 
-    <select id="getComponentByName" resultMap="componentMap">
+    <select id="getComponentByName" resultMap="componentMapForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component
-        WHERE componentName like CONCAT('%', #{componentName}, '%');
+        FROM Component,Brand
+        WHERE componentName like CONCAT('%', #{componentName}, '%') AND Component.brandID = Brand.brandID;
     </select>
 
-    <select id="getComponentByBrand" resultMap="componentMap">
+    <select id="getComponentByBrand" resultMap="componentMapForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component
-        WHERE brandID = #{brandID};
+        FROM Component,Brand
+        WHERE Component.brandID = #{brandID} AND Component.brandID = Brand.brandID;
     </select>
 
-    <select id="getComponentDetail" resultType="com.fgear.webapp.domain.Component">
+    <select id="getComponentDetail" resultType="com.fgear.webapp.responseType.ComponentResponseForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component
-        WHERE componentID = #{componentID};
+        FROM Component,Brand
+        WHERE componentID = #{componentID} AND Component.brandID = Brand.brandID;
     </select>
 
-    <select id="getComponentListByCategoryTypeID" resultMap="componentMap">
+    <select id="getComponentListByCategoryTypeID" resultMap="componentMapForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component, Category, CategoryType
+        FROM Component, Category, CategoryType,Brand
         WHERE Component.categoryID = Category.categoryID
-        and CategoryType.categoryTypeID = Category.categoryTypeID
-        and Category.categoryTypeID = #{categoryTypeID}
+        AND CategoryType.categoryTypeID = Category.categoryTypeID
+        AND Category.categoryTypeID = #{categoryTypeID}
+        AND Component.brandID = Brand.brandID;
     </select>
 
-    <select id="getComponentByCategoryID" resultMap="componentMap">
+    <select id="getComponentByCategoryID" resultMap="componentMapForUser">
         SELECT
         componentID,
         componentName,
-        sellPrice,
-        rentPrice,
+        price,
         quantity,
         image,
         description,
-        brandID,
+        brandName,
         categoryID,
         status
-        FROM Component
-        WHERE categoryID = #{categoryID};
+        FROM Component,Brand
+        WHERE categoryID = #{categoryID} AND Component.brandID = Brand.brandID;
     </select>
 
 </mapper>

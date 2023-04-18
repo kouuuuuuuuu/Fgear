@@ -75,8 +75,10 @@ public class UserController {
                             Arrays.asList(role.getRoleName()))
                     .sign(algorithm);
             Map<String, Object> tokens = new HashMap<>();
+            UserResponse userRep = new UserResponse(user.getUserID(),user.getUserName(),user.getPhone(),user.getEmail(),user.getFacebook(),user.getImage(),user.getStatus(),user.getAddressID());
             tokens.put("access_token", access_token);
             tokens.put("refresh_token", refresh_token);
+            tokens.put("user",userRep);
             response.setContentType("application/json");
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);
         }catch (AuthenticationException e) {

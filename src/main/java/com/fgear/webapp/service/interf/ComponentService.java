@@ -1,17 +1,16 @@
 package com.fgear.webapp.service.interf;
 
 import com.fgear.webapp.domain.Component;
+import com.fgear.webapp.responseType.ComponentResponseForUser;
 
 import java.util.List;
 
 public interface ComponentService {
-    List<Component> getAllComponent();
+    List<ComponentResponseForUser> getAllComponent();
+    List<ComponentResponseForUser> getComponentByName(String componentName);
+    List<ComponentResponseForUser> getComponentByBrand(String brandID);
+    ComponentResponseForUser getComponentDetail(int componentID);
+    List<ComponentResponseForUser> getComponentListByCategoryTypeID(String categoryTypeID);
 
-    List<Component> getComponentByName(String componentName);
-
-    List<Component> getComponentByBrand(String brandID);
-    Component getComponentDetail(int componentID);
-    List<Component> getComponentListByCategoryTypeID(String categoryTypeID);
-
-    List<Component> getComponentByCategoryID(String categoryID);
+    List<ComponentResponseForUser> getComponentByCategoryID(String categoryID);
 }

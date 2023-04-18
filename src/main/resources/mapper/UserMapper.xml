@@ -42,4 +42,5 @@
         status
         FROM User where roleID = 2;
     </select>
+
 </mapper>

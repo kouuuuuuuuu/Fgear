@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComponentResponse {
-    private List<Component> components;
+    private List<ComponentResponseForUser> Components;
     private String errorMessage;
 
 }

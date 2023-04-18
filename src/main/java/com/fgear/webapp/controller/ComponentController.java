@@ -2,6 +2,7 @@ package com.fgear.webapp.controller;
 
 import com.fgear.webapp.domain.Component;
 import com.fgear.webapp.responseType.ComponentResponse;
+import com.fgear.webapp.responseType.ComponentResponseForUser;
 import com.fgear.webapp.service.interf.ComponentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,13 @@ public class ComponentController {
     private final ComponentService componentService;
 
     @GetMapping("/allComponent")
-    public ResponseEntity<List<Component>> getAllComponent(){
+    public ResponseEntity<List<ComponentResponseForUser>> getAllComponent(){
         return ResponseEntity.ok().body(componentService.getAllComponent());
     }
 
     @GetMapping("/componentByName")
     public ResponseEntity<ComponentResponse> getComponentByName(@RequestParam String componentName){
-        List<Component> components = componentService.getComponentByName(componentName);
+        List<ComponentResponseForUser> components = componentService.getComponentByName(componentName);
         ComponentResponse componentResponse = new ComponentResponse();
         if(components.isEmpty() || components.size()==0){
             componentResponse.setErrorMessage(("Component with name: "+ componentName +" is not found!"));
@@ -35,7 +36,7 @@ public class ComponentController {
 
     @GetMapping("/componentByBrand")
     public ResponseEntity<ComponentResponse> getComponentByBrand(@RequestParam String brandID){
-        List<Component> components = componentService.getComponentByBrand(brandID);
+        List<ComponentResponseForUser> components = componentService.getComponentByBrand(brandID);
         ComponentResponse componentResponse = new ComponentResponse();
         if(components.isEmpty() || components.size()==0){
             componentResponse.setErrorMessage(("Component at brand: "+ brandID +" is not found!"));
@@ -46,7 +47,7 @@ public class ComponentController {
     }
     @GetMapping("/componentListByCategoryTypeID")
     public ResponseEntity<ComponentResponse> getComponentListByCategoryTypeID(@RequestParam String categoryTypeID){
-        List<Component> components = componentService.getComponentByCategoryID(categoryTypeID);
+        List<ComponentResponseForUser> components = componentService.getComponentByCategoryID(categoryTypeID);
         ComponentResponse componentResponse = new ComponentResponse();
         if(components.isEmpty() || components.size()==0){
             componentResponse.setErrorMessage(("Component at category type: "+ categoryTypeID +" is not found!"));
@@ -57,7 +58,7 @@ public class ComponentController {
     }
     @GetMapping("/componentListByCategoryID")
     public ResponseEntity<ComponentResponse> getComponentListByCategoryID(@RequestParam String categoryID){
-        List<Component> components = componentService.getComponentByCategoryID(categoryID);
+        List<ComponentResponseForUser> components = componentService.getComponentByCategoryID(categoryID);
         ComponentResponse componentResponse = new ComponentResponse();
         if(components.isEmpty() || components.size()==0){
             componentResponse.setErrorMessage(("Component at category type: "+ categoryID +" is not found!"));
@@ -67,7 +68,7 @@ public class ComponentController {
         return ResponseEntity.ok().body(componentResponse);
     }
     @GetMapping("/componentDetail")
-    public ResponseEntity<Component> getDetailComponent(@RequestParam int componentID){
+    public ResponseEntity<ComponentResponseForUser> getDetailComponent(@RequestParam int componentID){
         return ResponseEntity.ok().body(componentService.getComponentDetail(componentID));
     }
 }
