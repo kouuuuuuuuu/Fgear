@@ -9,6 +9,7 @@ import com.fgear.webapp.domain.Role;
 import com.fgear.webapp.domain.User;
 import com.fgear.webapp.responseType.UserResponse;
 import com.fgear.webapp.responseType.UserResponseByRoleUser;
+import com.fgear.webapp.service.emailService.EmailSenderService;
 import com.fgear.webapp.service.interf.RoleService;
 import com.fgear.webapp.service.interf.UserService;
 import lombok.RequiredArgsConstructor;
@@ -126,5 +127,4 @@ public class UserController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
-
 }
