@@ -10,4 +10,7 @@ import java.util.List;
 public interface UserMapper {
     User findUserById(String userID);
     List<UserResponse> getListUserWithRoleUser();
+    User findUserByEmail(String email);
+    void createUserByNotFound(User user);
+
 }

@@ -55,4 +55,21 @@ public class UserServerImp implements UserDetailsService, UserService {
         log.debug("get list user");
         return userMapper.getListUserWithRoleUser();
     }
+
+    @Override
+    public User findUserByEmail(String email) throws UsernameNotFoundException {
+        log.debug("find user by email");
+        User user = userMapper.findUserByEmail(email);
+        if(user==null){
+            log.error("user not found!");
+            throw new UsernameNotFoundException("User not found in the database");
+        }
+        return user;
+    }
+
+    @Override
+    public void createUserByNotFound(User user) {
+        log.debug("create user not found!");
+        userMapper.createUserByNotFound(user);
+    }
 }

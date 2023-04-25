@@ -6,12 +6,15 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fgear.webapp.domain.Role;
+import com.fgear.webapp.domain.TokenRequest;
 import com.fgear.webapp.domain.User;
 import com.fgear.webapp.responseType.UserResponse;
 import com.fgear.webapp.responseType.UserResponseByRoleUser;
 import com.fgear.webapp.service.emailService.EmailSenderService;
 import com.fgear.webapp.service.interf.RoleService;
 import com.fgear.webapp.service.interf.UserService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -125,6 +128,58 @@ public class UserController {
             }
         } else {
             throw new RuntimeException("Refresh token is missing");
+        }
+    }
+    @PostMapping ("/token/google")
+    public void tokenGoogle(@RequestBody String accessToken ,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            TokenRequest tokenRequest = mapper.readValue(accessToken, TokenRequest.class);
+            String tokenValue = tokenRequest.getAccessToken();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseToken decodedToken = auth.verifyIdToken(tokenValue);
+            String name = decodedToken.getEmail();
+            Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+            User user = userService.findUserByEmail(name);
+            Role role;
+            if(user == null){
+                String userID = decodedToken.getUid();
+                String userName = decodedToken.getName();
+                String image = decodedToken.getPicture();
+                String email = decodedToken.getEmail();
+                int status;
+                if(decodedToken.isEmailVerified() == true){
+                    status = 1;
+                }else{
+                    status = 0;
+                }
+                user = new User(userID, userName, "", email, "", "", image, 2, status,0);
+                userService.createUserByNotFound(user);
+                role = roleService.findRoleName(user.getRoleID());
+            }else {
+                role = roleService.findRoleName(user.getRoleID());
+            }
+            String access_token = JWT.create()
+                    .withSubject(user.getUserID())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
+                    .withIssuer(request.getRequestURL().toString())
+                    .withClaim("roles",
+                            Arrays.asList(role.getRoleName()))
+                    .sign(algorithm);
+            UserResponse userResponse = new UserResponse(user.getUserID(), user.getUserName(), user.getPhone(), user.getEmail(),user.getFacebook(),user.getImage(),user.getStatus(),user.getAddressID());
+            Map<String, Object> tokens = new HashMap<>();
+            tokens.put("access_token", access_token);
+            tokens.put("User", userResponse);
+            tokens.put("refresh_token", tokenValue);
+            response.setContentType("application/json");
+            new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        } catch (Exception e) {
+            response.setHeader("error", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            Map<String, String> error = new HashMap<>();
+            error.put("error_message", e.getMessage());
+            response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), error);
         }
     }
 }

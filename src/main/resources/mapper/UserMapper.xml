@@ -42,5 +42,33 @@
         status
         FROM User where roleID = 2;
     </select>
+    <select id="findUserByEmail" resultType="com.fgear.webapp.domain.User">
+        SELECT
+        userID,
+        userName,
+        phone,
+        email,
+        facebook,
+        password,
+        image,
+        roleID,
+        status,
+        addressID
+        FROM User where email = #{email};
+    </select>
 
+    <insert id="createUserByNotFound" parameterType="com.fgear.webapp.domain.User">
+        INSERT INTO User (
+        userID,
+        userName,
+        phone,
+        email,
+        facebook,
+        password,
+        image,
+        roleID,
+        status,
+        addressID)
+        values (#{userID},#{userName},#{phone},#{email},#{facebook},#{password},#{image},#{roleID},#{status},#{addressID})
+    </insert>
 </mapper>
